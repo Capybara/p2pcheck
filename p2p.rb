@@ -1,21 +1,22 @@
 #!/usr/bin/env ruby
 #
 # This script is meant to be ran via a launchd plist to check the availability of my Sabnzbd plugins
-# the url variable will have to be changed to your servers IP address and ports in the site array
 require "rubygems"
 require "bundler/setup"
 require 'terminal-notifier'
 require 'open-uri'
 require 'net/http'
-require './config'
+load '~/.p2pcheck'
 require './pgrep'
 
 
 #
+# the url variable will have to be changed to your servers IP address and ports in the site array
+# you should put the following 2 lines in a file named ~/.p2pcheck
 #site = {"Couchpotato"=>"5050","Sickbeard"=>"8081/home/","Headphones"=>"8181/home","Sabnzbd"=>"8080"}
 #url = "http://10.0.1.8:"
 
-#this method was taken from a Dzone snipet. It works pretty good, but the url has to be exact
+#this method was taken from a Dzone snipet. It works pretty good if the urls are exact
 def remote_file_exists?(url)
 url = URI.parse(url)
 	Net::HTTP.start(url.host, url.port) do |http|

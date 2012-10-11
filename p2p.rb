@@ -34,7 +34,7 @@ else
 	else
 		message = "and the process isn't running"
 	end
-	TerminalNotifier.notify("#{name} isn't available,\n#{message}", :title =>"Attention!", :execute => 'say omg')
+	TerminalNotifier.notify("#{name} isn't available,\n#{message}", :title =>"Attention!", :execute => "launchctl {unload,load} com.tv.#{name.downcase}.plist")
 	puts "There seems to be a problem with #{name}\n *We couldn't connect to the url,\n#{message}"
 end
 end

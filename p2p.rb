@@ -30,9 +30,11 @@ if remote_file_exists? "#{$url}#{port}"
   puts "#{name} is good"
 else
 	TerminalNotifier.notify("#{name} isn't available", :title =>"Attention!", :subtitle =>"click \"show\"", :execute => 'say omg')
-	puts "There seems to be a problem with #{name}"
-	puts "-The process isn't running-" if	pgrep_wrap("#{name}")
+	puts "There seems to be a problem with #{name}\n *We couldn't connect to the url"
+		if pgrep_wrap("#{name}")
+			puts " *the process is running"
+		else
+			puts " *the process isn't running"
+		end
 end
 end
-							
-

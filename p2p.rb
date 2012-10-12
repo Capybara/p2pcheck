@@ -3,13 +3,14 @@
 # This script is meant to be ran via a launchd plist to check the availability of my Sabnzbd plugins
 require "rubygems"
 require "bundler/setup"
+require "prowl"
 require 'terminal-notifier'
 require 'open-uri'
 require 'net/http'
 load '~/.p2pcheck'
 require './pgrep'
 
-
+p = Prowl.new(:apikey=>"1b7952dcf26429c8496dba07730f2977523e3868",:application=>"p2pcheck")
 #
 # the url variable will have to be changed to your servers IP address and ports in the site array
 # you should put the following 2 lines in a file named ~/.p2pcheck
@@ -39,6 +40,9 @@ else
 	message = "#{name}'s process isn't running"
 	r += 1
 end
-TerminalNotifier.notify("#{reachable}\n#{message}", :title =>"Attention!", :execute => "lunchy restart com.tv.#{name.downcase}") if r > 0
+	if r > 0
+		p.add(:event=>"#{reachable}\n#{message}")
+		TerminalNotifier.notify("#{reachable}\n#{message}", :title =>"Attention!", :execute => "lunchy restart com.tv.#{name.downcase}") if r > 0
 puts "#{reachable},\n#{message}"
+end
 end

@@ -26,15 +26,19 @@ end
 
 #site.each {|name,port| puts "#{name} is good" if remote_file_exists? "http://10.0.1.8:#{port}"}
 $site.each do |name,port|
-if remote_file_exists? "#{$url}#{port}"
-  puts "#{name} is good"
+r = 0
+if pgrep_wrap("#{name}")
+	message = "#{name}'s process is running"
+		if remote_file_exists? "#{$url}#{port}"
+			reachable = "#{name} is reachable"
+		else
+			reachable = "#{name} isn't reachable"
+			r += 1
+		end
 else
-	if pgrep_wrap("#{name}")
-		message = "but the process is running"
-	else
-		message = "and the process isn't running"
-	end
-	TerminalNotifier.notify("#{name} isn't available,\n#{message}", :title =>"Attention!", :execute => "launchctl {unload,load} com.tv.#{name.downcase}.plist")
-	puts "There seems to be a problem with #{name}\n *We couldn't connect to the url,\n#{message}"
+	message = "#{name}'s process isn't running"
+	r += 1
 end
+TerminalNotifier.notify("#{reachable}\n#{message}", :title =>"Attention!", :execute => "lunchy restart com.tv.#{name.downcase}") if r > 0
+puts "#{reachable},\n#{message}"
 end

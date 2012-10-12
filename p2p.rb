@@ -10,7 +10,8 @@ require 'net/http'
 load '~/.p2pcheck'
 require './pgrep'
 
-p = Prowl.new(:apikey=>"1b7952dcf26429c8496dba07730f2977523e3868",:application=>"p2pcheck")
+require 'prowl'
+p = Prowl.new(:apikey=>"#{$papi}",:application=>"p2pcheck")
 #
 # the url variable will have to be changed to your servers IP address and ports in the site array
 # you should put the following 2 lines in a file named ~/.p2pcheck
@@ -42,7 +43,11 @@ else
 end
 	if r > 0
 		p.add(:event=>"#{reachable}\n#{message}")
-		TerminalNotifier.notify("#{reachable}\n#{message}", :title =>"Attention!", :execute => "lunchy restart com.tv.#{name.downcase}") if r > 0
+		TerminalNotifier.notify("#{reachable}\n#{message}", :title =>"Attention!", :execute => "lunchy restart com.tv.#{name.downcase}")
+if r > 0
+  p.add(:event=>"#{reachable}\n#{message}")
+	TerminalNotifier.notify("#{reachable}\n#{message}", :title =>"Attention!", :execute => "lunchy restart com.tv.#{name.downcase}")
+end
 puts "#{reachable},\n#{message}"
 end
 end

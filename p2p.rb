@@ -5,8 +5,7 @@ require "rubygems"
 require "bundler/setup"
 require "prowl"
 require 'terminal-notifier'
-require 'open-uri'
-require 'net/http'
+require 'nmap/program'
 load '~/.p2pcheck'
 require './pgrep'
 
@@ -18,11 +17,10 @@ p = Prowl.new(:apikey=>"#{$papi}",:application=>"p2pcheck")
 #site = {"Couchpotato"=>"5050","Sickbeard"=>"8081/home/","Headphones"=>"8181/home","Sabnzbd"=>"8080"}
 #url = "http://10.0.1.8:"
 
-#this method was taken from a Dzone snipet. It works pretty good if the urls are exact
 def remote_file_exists?(url)
-url = URI.parse(url)
-	Net::HTTP.start(url.host, url.port) do |http|
-return http.head(url.request_uri).code == "200"
+	Nmap::Program.scan do |nmap|
+		nmap.ports = port
+		nmap.targets	= name
 	end
 end
 

@@ -10,17 +10,14 @@ load '~/.p2pcheck'
 require './pgrep'
 
 p = Prowl.new(:apikey=>"#{$papi}",:application=>"p2pcheck")
-#
+
 # the url variable will have to be changed to your servers IP address and ports in the site array
-# you should put the following 2 lines in a file named ~/.p2pcheck
-#site = {"Couchpotato"=>"5050","Sickbeard"=>"8081/home/","Headphones"=>"8181/home","Sabnzbd"=>"8080"}
+# you should put your settings in a file named ~/.p2pcheck
 
 def remote_file_exists?(port)
 	Net::Ping::TCP.new($url,port).ping?
-
 end
 
-#site.each {|name,port| puts "#{name} is good" if remote_file_exists? "http://10.0.1.8:#{port}"}
 $site.each do |name,port|
 r = 0
 if pgrep_wrap("#{name}")

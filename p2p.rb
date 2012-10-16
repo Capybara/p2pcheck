@@ -3,25 +3,23 @@
 # This script is meant to be ran via a launchd plist to check the availability of my Sabnzbd plugins
 require "rubygems"
 require "bundler/setup"
-require "prowl"
+#require "prowl"
 require 'terminal-notifier'
-require 'nmap/program'
+require 'net/ping'
 load '~/.p2pcheck'
 require './pgrep'
 
 require 'prowl'
-p = Prowl.new(:apikey=>"#{$papi}",:application=>"p2pcheck")
+#p = Prowl.new(:apikey=>"#{$papi}",:application=>"p2pcheck")
 #
 # the url variable will have to be changed to your servers IP address and ports in the site array
 # you should put the following 2 lines in a file named ~/.p2pcheck
 #site = {"Couchpotato"=>"5050","Sickbeard"=>"8081/home/","Headphones"=>"8181/home","Sabnzbd"=>"8080"}
 #url = "http://10.0.1.8:"
 
-def remote_file_exists?(url)
-	Nmap::Program.scan do |nmap|
-		nmap.ports = port
-		nmap.targets	= name
-	end
+def remote_file_exists?(port)
+	Net::Ping::TCP.new('10.0.1.8',port).ping?
+
 end
 
 #site.each {|name,port| puts "#{name} is good" if remote_file_exists? "http://10.0.1.8:#{port}"}
@@ -29,7 +27,7 @@ $site.each do |name,port|
 r = 0
 if pgrep_wrap("#{name}")
 	message = "#{name}'s process is running"
-		if remote_file_exists? "#{$url}#{port}"
+		if remote_file_exists?(port)
 			reachable = "#{name} is reachable"
 		else
 			reachable = "#{name} isn't reachable"
@@ -40,10 +38,10 @@ else
 	r += 1
 end
 	if r > 0
-		p.add(:event=>"#{reachable}\n#{message}")
+		#p.add(:event=>"#{reachable}\n#{message}")
 		TerminalNotifier.notify("#{reachable}\n#{message}", :title =>"Attention!", :execute => "lunchy restart com.tv.#{name.downcase}")
 if r > 0
-  p.add(:event=>"#{reachable}\n#{message}")
+  #p.add(:event=>"#{reachable}\n#{message}")
 	TerminalNotifier.notify("#{reachable}\n#{message}", :title =>"Attention!", :execute => "lunchy restart com.tv.#{name.downcase}")
 end
 puts "#{reachable},\n#{message}"

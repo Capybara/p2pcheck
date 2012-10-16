@@ -7,4 +7,4 @@
  * i have all my sab plugins started with launchd, you will have to edit the execute param for terminal-notifier  https://github.com/alloy/terminal-notifier to fit ur needs. I wanted the option of restarting via the "lunchy" gem https://github.com/mperham/lunchy
  * make a config file named ".p2pcheck" and place in ur home directory ,see the sample provided
 
-### check out the [**gitpage**](http://capybara.github.com/p2pcheck)
+### check out the [**Github Page**](http://capybara.github.com/p2pcheck)

@@ -13,6 +13,7 @@ p = Prowl.new(:apikey=>"#{$papi}",:application=>"p2pcheck")
 
 # the url variable will have to be changed to your servers IP address and ports in the site array
 # you should put your settings in a file named ~/.p2pcheck
+# there is a sample .p2pcheck, you can edit it and move to ur home dirctory
 
 def remote_file_exists?(port)
 	Net::Ping::TCP.new($url,port).ping?
@@ -35,10 +36,7 @@ end
 	if r > 0
 		p.add(:event=>"#{reachable}\n#{message}")
 		TerminalNotifier.notify("#{reachable}\n#{message}", :title =>"Attention!", :execute => "lunchy restart com.tv.#{name.downcase}")
-if r > 0
-  p.add(:event=>"#{reachable}\n#{message}")
-	TerminalNotifier.notify("#{reachable}\n#{message}", :title =>"Attention!", :execute => "lunchy restart com.tv.#{name.downcase}")
-end
+        end
 puts "#{reachable},\n#{message}"
-end
+
 end

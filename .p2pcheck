@@ -4,3 +4,5 @@ $site = {"Pytivo"=>"9032","Couchpotato"=>"5050","Sickbeard"=>"8081","Headphones"
 # set the base url of your server if its on a different computer
 $url = "127.0.0.1"
 # move this file to ~/.p2pcheck
+#add ur Prowl api key
+$papi = 

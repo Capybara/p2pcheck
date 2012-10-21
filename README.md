@@ -8,4 +8,4 @@
 e.g. My sabnzbd launchd plist is named com.tv.Sabnzbd.plist, so this is my terminal-notifier line , ```		TerminalNotifier.notify("#{reachable}\n#{message}", :title =>"Attention!", :execute => "lunchy restart com.tv.#{name.downcase}")```
  * make a config file named ".p2pcheck" and place in ur home directory, see the sample provided
 
-### check out the [**Github Page**](http://capybara.github.com/p2pcheck)
+check out [My Github Page](http://capybara.github.com/p2pcheck)
